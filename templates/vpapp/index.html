@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>RSH Vertretungsplan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-icons/font/bootstrap-icons.css' %}">
+  </head>
+  <body>
+    <nav class="nav-extended red">
+      <div class="container">
+        <div class="nav-wrapper">
+          <div class="brand-logo center">
+            <div class="hide-on-small-and-down">
+              Realschule Herrieden
+            </div>
+            <div class="hide-on-med-and-up show-on-small brand-logo center">
+              RSH
+            </div>
+          </div>
+          <a href="#reload" id='reload' class="modal-trigger">
+            <i class="white-text bi-arrow-clockwise"></i>
+          </a>
+        </div>
+        <div class="nav-content">
+          <ul id="navTabs" class="tabs tabs-transparent tabs-fixed-width">
+            <li class="tab"><a class="active" href="#replacements">Vertretungen</a></li>
+            <li class="tab"><a href="#notifications">Mitteilungen</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div id="replacements" class="col s12">
+          <div class="center" id="planInfo">
+            <span class="planDate"></span>
+            <span class="planWeek"></span>
+          </div>
+          <br>
+          <table class="striped" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Klasse</th>
+                <th>Stunde</th>
+                <th>Fach</th>
+                <th>Raum</th>
+                <th>Findet statt</th>
+              </tr>
+            </thead>
+            <tbody id="replacementsTable">
+            </tbody>
+          </table>
+        </div>
+        <div id="notifications" class="col s12">
+          <div class="center" id="planInfo">
+            <span class="planDate"></span>
+            <span class="planWeek"></span>
+          </div>
+          <br>
+          <br>
+          <table class="striped" style="width: 100%">
+            <tbody id="notificationsTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="fixed-action-btn">
+        <button class="btn-floating btn-large amber modal-trigger" data-target='settingsModal'>
+          <i class="large bi-gear-fill"></i>
+        </button>
+      </div>
+
+      <div id="settingsModal" class="modal">
+        <form action="" method="get" id="settings">
+          <div class="modal-content">
+            <div class="input-field col s12">
+              <select name="schoolclass" id="schoolclass">
+                <option value="">Alle</option>
+                <optgroup label="05">
+                  <option value="05%a">05a</option>
+                  <option value="05%b">05b</option>
+                  <option value="05%c">05c</option>
+                  <option value="05%d">05d</option>
+                </optgroup>
+                <optgroup label="06">
+                  <option value="06%a">06a</option>
+                  <option value="06%b">06b</option>
+                  <option value="06%c">06c</option>
+                  <option value="06%d">06d</option>
+                </optgroup>
+                <optgroup label="07">
+                  <option value="07%a">07a</option>
+                  <option value="07%b">07b</option>
+                  <option value="07%c">07c</option>
+                  <option value="07%d">07d</option>
+                </optgroup>
+                <optgroup label="08">
+                  <option value="08%a">08a</option>
+                  <option value="08%b">08b</option>
+                  <option value="08%c">08c</option>
+                  <option value="08%d">08d</option>
+                  <option value="08%e">08e</option>
+                </optgroup>
+                <optgroup label="09">
+                  <option value="09%a">09a</option>
+                  <option value="09%b">09b</option>
+                  <option value="09%c">09c</option>
+                  <option value="09%d">09d</option>
+                  <option value="09%e">09e</option>
+                </optgroup>
+                <optgroup label="10">
+                  <option value="10%a">10a</option>
+                  <option value="10%b">10b</option>
+                  <option value="10%c">10c</option>
+                  <option value="10%d">10d</option>
+                  <option value="10%e">10e</option>
+                </optgroup>
+              </select>
+              <label>Klasse</label>
+            </div>
+            <br>
+            <br>
+         </div>
+          <div class="modal-footer">
+            <div class="right-align">
+              <a href="" class="modal-action modal-close waves-effect waves-green btn-flat"><span
+                         class="icon-close"></span> Verwerfen</a>
+              <button class="modal-action modal-close waves-effect waves-green btn-flat" type="submit"
+                         id="settingsModalSave"><span class="icon-check"></span> Speichern</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <footer class="page-footer red" style="position: fixed; bottom: 0; left: 0; width: 100%">
+      <div class="footer-copyright">
+        <div class="container">
+          <a class="white-text" href="https://github.com/RSHerrieden/vpapp/blob/master/LICENSE"
+                                referrerpolicy="no-referrer" target="_blank">&copy; Moritz 'e1mo' Fromm &amp; Noah Seefried (AGPL v3)</a>
+          <a class="grey-text text-lighten-4 right" href="https://github.com/RSHerrieden/vpapp/"
+                                                    referrerpolicy="no-referrer" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </footer>
+    <script type="text/javascript" src="{% static 'js/fetch.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+  </body>
+</html>
