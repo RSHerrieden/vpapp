@@ -58,7 +58,10 @@ class Command(BaseCommand):
 
     def ensure_dely(self, date, delay = None):
         if not delay:
-            delay = settings.VPAPP_SCRAPE_DELAY
+            try:
+                delay = settings.VPAPP_SCRAPE_DELAY
+            except AttributeError:
+                delay = 600
 
         qs = LastCheck.objects.filter(date=date)
         if not qs.exists():
