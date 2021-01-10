@@ -32,7 +32,7 @@ function displayReplacements(r) {
   planDate += 'Vertretungen '
   planDate += `am ${days[date.getDay() - 1]}, `
   planDate += ('0' + date.getDate()).slice(-2) + '.'
-  planDate += ('0' + date.getMonth()).slice(-2) + '.'
+  planDate += ('0' + (date.getMonth() + 1)).slice(-2) + '.'
   planDate += date.getFullYear()
   if (schoolclass !== '') {
     planDate += ' für die '
