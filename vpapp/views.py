@@ -3,7 +3,7 @@ from .models import SchoolClass, Replacement, Notification, LastCheck
 from django.utils import timezone
 from datetime import datetime, timedelta
 from datetime import date as dtdate
-from dateutil.parser import parse
+from dateutil.parser import parse, ParserError
 from django.shortcuts import render
 
 def index_view(request):
@@ -12,6 +12,9 @@ def index_view(request):
 def api_v2_replacements(request, date = None, schoolclass = None):
     _date = date
     date = parse_user_date(date)
+    if not date:
+        schoolclass = _date
+        date = parse_user_date()
 
     _replacements = Replacement.objects.filter(date=date)
 
@@ -92,8 +95,11 @@ def _api_v2_base(request, method = None, data = None, date = None, req_date = No
 def parse_user_date(date = None):
     if not date or date == 'next':
         return get_applicable_default_day(date == 'next')
-
-    return parse(date)
+    
+    try:
+        return parse(date)
+    except ParserError:
+        return False
 
 def get_applicable_default_day(skip=False):
     offset = int(timezone.now().hour > 13 and timezone.now().isoweekday() <= 5)
