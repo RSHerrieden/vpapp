@@ -95,6 +95,9 @@ def _api_v2_base(request, method = None, data = None, date = None, req_date = No
 def parse_user_date(date = None):
     if not date or date == 'next':
         return get_applicable_default_day(date == 'next')
+
+    if len(date) <= 3:
+        return False
     
     try:
         return parse(date)
