@@ -5,6 +5,7 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 from datetime import date as dtdate
 from bs4 import BeautifulSoup, element
+from time import sleep
 
 import requests
 
@@ -19,7 +20,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not settings.VPAPP_RSH_URL:
-            CommandError('VPAPP_RSH_URL is not defined or empty')
+            raise CommandError('VPAPP_RSH_URL is not defined or empty')
 
         dates = options['dates']
         if dates == None:
@@ -41,6 +42,7 @@ class Command(BaseCommand):
                 dates.append(date)
 
         for date in dates:
+            sleep(.3)
             self.stdout.write('{:%Y-%m-%d}'.format(date), ending='... ')
 
             if not self.ensure_dely(date):
@@ -49,8 +51,13 @@ class Command(BaseCommand):
 
             plan = self.fetch_plan(date)
 
+            if not plan:
+                self.stdout.write(self.style.ERROR('error'))
+                continue
+
+
             if plan[2] == False:
-                self.stdout.write(self.style.WARNING(plan[1]))
+                self.stdout.write(self.style.WARNING(str(plan[1])))
                 continue
 
             self.import_plan(date, plan[0])
@@ -102,7 +109,11 @@ class Command(BaseCommand):
             url_template = settings.VPAPP_RSH_URL
 
         url = url_template.format(date)
-        r = requests.get(url)
+        try:
+            r = requests.get(url)
+        except:
+            return False
+
         success = r.status_code == requests.codes.ok
 
         check = LastCheck.objects.filter(date=date)
